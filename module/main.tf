@@ -8,7 +8,11 @@ variable "config" {
     db_username = string
     db_password = string
   })
-  # sensitive = true
+  sensitive = true
+  validation {
+    condition = alltrue([for item in var.config : item != ""])
+    error_message = "Some values are empty."
+  }
 }
 
 locals {

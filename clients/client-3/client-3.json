@@ -1,8 +1,0 @@
-{
-  "name": "Blah client 3",
-  "region": "us-east-1",
-  "some_secret": "some secret",
-  "special_secret": "some special secret",
-  "db_username": "secret user",
-  "db_password": "secret password"
-}

@@ -1,28 +1,7 @@
-terraform {
-  required_version = ">= 0.14"
-  required_providers {
-    aws = {
-      version = ">= 3.29.0"
-      source = "hashicorp/aws"
-    }
-    # sops = {
-    #   source = "carlpett/sops"
-    #   version = "~> 0.5"
-    # }
-  }
-}
+module "tf_workspaces" {
+  source = "./modules/tfc-workspaces"
 
-locals {
-  files = fileset(path.module, "clients/**/*json")
-}
-
-module "clients" {
-  source = "./module/"
-
-  for_each  = local.files
-  config    = jsondecode(file(each.value))
-}
-
-output config {
-  value = module.clients
+  terraform_organization_name = "mashimine"
+  values_path                 = fileset(path.module, "./clients/**/values.json")
+  secrets_path                = fileset(path.module, "./clients/**/secrets.enc.json")
 }

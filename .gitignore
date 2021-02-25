@@ -1,0 +1,28 @@
+# Add SOPS plugin
+# NOTE: This plugin has to be added manually since terraform is not able
+# to install it via init (as it is a 3rd party plugin)
+# !.terraform/providers/registry.terraform.io/carlpett/sops/0.6.0/linux_amd64/terraform-provider-sops_v0.6.0
+# !.terraform/providers
+# .terraform/providers/*
+# !.terraform/plugins/registry.terraform.io
+# .terraform/plugins/registry.terraform.io/*
+# !.terraform/plugins/registry.terraform.io/carlpett
+# !.terraform/plugins/registry.terraform.io/carlpett/*
+# !.terraform/plugins/registry.terraform.io/carlpett/sops
+# !.terraform/plugins/registry.terraform.io/carlpett/sops/*
+# !.terraform/plugins/registry.terraform.io/carlpett/sops/0.6.0
+# !.terraform/plugins/registry.terraform.io/carlpett/sops/0.6.0/*
+# !.terraform/plugins/registry.terraform.io/carlpett/sops/0.6.0/linux_amd64/
+# !.terraform/plugins/registry.terraform.io/carlpett/sops/0.6.0/linux_amd64/*
+!.terraform/plugins/registry.terraform.io/carlpett/sops/0.6.0/linux_amd64/terraform-provider-sops_v0.6.0
+
+
+# Local .terraform directories
+**/.terraform/*
+**/root/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+.state
+

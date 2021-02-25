@@ -1,0 +1,25 @@
+{
+  "workspace": "terraform-vax-instance-prod",
+  "branch": "dev",
+  "description": "Development Environment for Washington DC",
+  "variables": {
+    "instance": "prod",
+    "region": "us-west-2",
+    "public_zone": "vax-us3-prod-002.skl.io",
+    "private_zone": "private.vax-us3-prod-002.skl.io",
+    "cidr_block": "10.44.16.0/23",
+    "environment": "vax-us3-prod-002",
+    "backup_strategy": "test",
+    "db_instance_count": "1",
+    "db_instance_class": "db.t3.medium",
+    "db_engine_version": "11.9",
+    "application_key": "washingtondc-health",
+    "sms_provider": "twilio",
+    "email_provider": "aws_ses",
+    "twilio_area_code": 0,
+    "twilio_phone_numbers": 0,
+    "twilio_account_sid": "YYYYYYYYYYYYYYYYYYYYYYY",
+    "twilio_msg_service_sid": "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
+    "cloudwatch_alarms_enabled": false
+  }
+}

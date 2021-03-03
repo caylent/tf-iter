@@ -1,6 +1,6 @@
 {
   "workspace": "terraform-vax-instance-prod",
-  "branch": "dev",
+  "branch": "prod",
   "description": "Development Environment for Washington DC",
   "variables": {
     "instance": "prod",

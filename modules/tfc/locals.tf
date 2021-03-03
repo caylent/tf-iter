@@ -1,8 +1,7 @@
 locals {
+  ## TODO: Implement validations
   values_files = { for v in var.values_path : v => jsondecode(file(v)) }
   secret_files = { for f in data.sops_file.secrets : f.source_file => jsondecode(f.raw) }
-
-  # TODO: Implement validations
 
   vars = {
     for k, v in local.values_files :
@@ -12,6 +11,7 @@ locals {
     })
   }
 
+  ## Transform maps of maps into a list of maps for plain text variables
   workspace_variables = flatten([
     for ws_name, ws in local.vars : [
       for var_name, value in ws.variables : {
@@ -23,6 +23,7 @@ locals {
     ]
   ])
 
+  ## Transform maps of maps into a list of maps for secret variables
   workspace_secrets = flatten([
     for ws_name, ws in local.vars : [
       for var_name, value in ws.secrets : {

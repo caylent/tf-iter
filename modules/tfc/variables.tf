@@ -52,12 +52,6 @@ variable "secrets_path" {
   type        = set(string)
 }
 
-variable "variable_category" {
-  description = "Whether this is a Terraform or environment variable. Valid values are terraform or env"
-  type        = string
-  default     = "terraform"
-}
-
 # --------------------------------------------------------------------
 # Terraform cloud workspaces variables
 # --------------------------------------------------------------------

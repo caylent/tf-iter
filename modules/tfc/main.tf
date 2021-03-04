@@ -48,7 +48,7 @@ resource "tfe_variable" "variable" {
   for_each     = length(local.values_files) > 0 ? { for w in local.workspace_vars : "${w.workspace}.${w.variable}" => w } : {}
   key          = each.value.variable
   value        = each.value.value
-  category     = var.variable_category
+  category     = each.value.category
   workspace_id = tfe_workspace.workspace[each.value.workspace].id
   sensitive    = each.value.sensitive
 }

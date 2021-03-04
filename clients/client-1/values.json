@@ -21,5 +21,8 @@
     "twilio_account_sid": "XXXXXX",
     "twilio_msg_service_sid": "XXXXXXXXXXXX",
     "cloudwatch_alarms_enabled": false
+  },
+  "env": {
+    "AWS_ACCESS_KEY_ID": "ASIAYGZURXXXX4P5T5UA"
   }
 }

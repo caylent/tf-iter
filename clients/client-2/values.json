@@ -21,5 +21,6 @@
     "twilio_account_sid": "YYYYYYYYYYYYYYYYYYYYYYY",
     "twilio_msg_service_sid": "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
     "cloudwatch_alarms_enabled": false
-  }
+  },
+  "env": {}
 }

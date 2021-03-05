@@ -107,7 +107,7 @@ module "tfc" {
   terraform_version       = "0.14.5"
   vcs_repo_identifier     = "organization/repo"
   vcs_repo_oauth_token_id = "your_oauth_token_id"
-  # ssh_key_id              = "youur_ssh_key_id"
+  ssh_key_id              = "youur_ssh_key_id"
 
   ## Variables settings
   values_path  = fileset(path.module, "./clients/**/values.json")

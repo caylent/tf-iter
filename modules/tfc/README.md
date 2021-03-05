@@ -1,9 +1,122 @@
 Terraform cloud
-=================
+================
 
-## Usage example 
+Terraform module for creating terraform cloud workspaces, variables and organizations                                                                  
+These types of resources are supported:
+                                                                    
+- [Terraform Cloud](https://www.terraform.io/cloud)
 
-## Requirements
+## Summary
+
+Terraform cloud module will allow you to create organizations, multiple workspaces, and variables. 
+
+For secret management easiness we decided to go full `GitOps` and have all of our secrets encrypted used the `sops` provider. Secrets and variables have been defined in values.json and secrets.enc.json files respectivily by client. Behind the scenes those files are going to be decrypted, decoded and read by the module dynamically, giving us the flexibility
+of instancing different type of variable across multiple workspaces
+
+## Sops provider
+
+For secret managing we are using the terraform sops provider. [Sops](https://github.com/mozilla/sops) will allow you to encrypt/decrypt your sensitive data using an GPG/KMS(AWS/GCP/Azure/Hashicorp keys.
+
+The `.sops.yaml` file reflects which `AWS KMS` key is going to be used for encrypting/decrypting your secrets as you can see in the following lines
+
+```yaml
+creation_rules:
+  - path_regex: clients/
+    kms: arn:aws:kms:<aws-region>:<aws-account-id>:key/<kms-key-arn>
+```
+
+#### Encrypting a file
+
+```shell
+$ sops -e file-to-encrypt > clients/client-name/secrets.enc.json 
+```
+
+#### Decrypting a file
+
+```shell
+$ sops -d clients/client-name/secrets.enc.json
+```
+
+## Clients directory
+
+The `client` directory structure reflects how `values` and `secrets` are split between clients. Each client directory contains their own `values.json` and `secrets.enc.json` file. 
+For client naming convention, you can use the naming pattern you want, but for files it is mandatory that they follow the naming convention stablished above. \
+
+We also should have at least a `values.json` file at least in each directory
+
+```shell
+.
+├── client-1
+│   ├── secrets.enc.json
+│   └── values.json
+└── client-2
+    └── values.json
+
+2 directories, 3 files
+```
+
+## Values and secrets json structure
+
+Whenever you want to instance a new `workspace` your `values.json` and `secrets.enc.json` files **MUST** stick to following json bodies format:
+
+#### **values.json**
+
+```json
+{
+  "workspace": "",
+  "branch": "",
+  "description": "",
+  "variables": {},
+  "env": {}
+}
+```
+- `workspace` is a string type that defines the workspace's name
+- `branch` is a string type that defines the branch that is going to be set in the workspace for the vcs repo
+- `description` is a string type that defines a brief description about the workspace
+- `variables` is an object type where you can define the `terraform variables` you need for you brand new workspace
+- `env` is an object type where you can define the `environment variables` you need for your brand new workspace
+
+#### **secrets.enc.json**
+
+```json
+{
+  "secrets": {},
+  "env_secrets": {}
+}
+```
+- `secrets` is an object type where you can define the `terraform secret variables` you need for you brand new workspace
+- `env` is an object type where you can define the `environment secret variables` you need for your brand new workspace
+
+**NOTE:** Secret variables are sensitive, therefore they are not going to be displayed during the terraform plan/output or shown in the terraform cloud UI
+
+## Instantiation example
+
+```hcl
+
+module "tfc" {
+  source = "./modules/tfc"
+
+  ## Organization settings
+  create_organization = true
+  organization_email  = "organization@mail.com"
+  organization_name   = "foo"
+
+  ## Workspace settings
+  enable_vcs              = false
+  speculative_enabled     = false
+  terraform_version       = "0.14.5"
+  vcs_repo_identifier     = "organization/repo"
+  vcs_repo_oauth_token_id = "your_oauth_token_id"
+  # ssh_key_id              = "youur_ssh_key_id"
+
+  ## Variables settings
+  values_path  = fileset(path.module, "./clients/**/values.json")
+  secrets_path = fileset(path.module, "./clients/**/secrets.enc.json")
+}
+
+```
+
+## Module requirements
 
 | Name      | Version   |
 | --------- | --------- |
@@ -49,3 +162,7 @@ Terraform cloud
 
 No output.
 
+
+Authors
+-------
+Module created by Caylent
